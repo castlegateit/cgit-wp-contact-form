@@ -32,6 +32,7 @@ function cgit_contact_add_default_template ($templates) {
         'messages' => array(
             'required' => '<span class="required">*</span>',
             'optional' => '',
+            'initial'  => '',
             'success'  => 'Your message has been sent. Thank you.',
             'failure'  => 'There was a problem sending your message. Please try again later.',
             'error'    => 'Your message contains errors. Please correct them and try again.',

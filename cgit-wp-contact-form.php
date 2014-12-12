@@ -63,6 +63,18 @@ function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE) {
     $error     = array();
     $message   = '';
 
+    // If template contains initial message, update message
+    if ($template['messages']['initial']) {
+
+        $message_args = array(
+            'message' => $template['messages']['initial'],
+            'attr' => '',
+        );
+
+        $message = cgit_vsprintf( $template['form']['message'], $message_args );
+
+    }
+
     // If form has been submitted, validate input
     if ($submitted) {
 
