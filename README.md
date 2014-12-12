@@ -44,7 +44,7 @@ This will add a template called `example_template`. You do not need to define ev
 
 ## Log files ##
 
-The log file directory is set using the constant `CGIT_CONTACT_FORM_LOG`. This should be a complete path to a directory, ideally below the document root. **This is not set by default.** It is up to you to define this constant in your theme or plugin. If it is not defined, you will see a warning message at the top of the WordPress admin panel. Note that separate forms will write to separate log files in this directory.
+The log file directory is set using the constant `CGIT_CONTACT_FORM_LOG`. This should be a complete path to a directory, ideally below the document root. **This is not set by default.** It is up to you to define this constant in `wp-config.php`. If it is not defined, you will see a warning message at the top of the WordPress admin panel. Note that separate forms will write to separate log files in this directory.
 
 ## Field reference ##
 

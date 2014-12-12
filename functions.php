@@ -59,7 +59,7 @@ function cgit_contact_post ($name, $default = '', $escape = TRUE) {
  * Check for contact form log directory
  */
 function cgit_contact_notice_log () {
-    echo '<div class="error"><p>Contact Form log directory not defined. Please define a log directory using <code>CGIT_CONTACT_FORM_LOG</code>. See <a href="http://github.com/castlegateit/cgit-wp-contact-form">documentation</a> for details.</p></div>';
+    echo '<div class="error"><p>Contact Form log directory not defined. Please define <code>CGIT_CONTACT_FORM_LOG</code> in <code>wp-config.php</code> using the full path to the log file directory. See <a href="http://github.com/castlegateit/cgit-wp-contact-form">documentation</a> for details.</p></div>';
 }
 
 /**
