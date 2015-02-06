@@ -5,7 +5,7 @@
 Plugin Name: Castlegate IT WP Contact Form
 Plugin URI: http://github.com/castlegateit/cgit-wp-contact-form
 Description: Flexible contact form plugin for WordPress.
-Version: 0.1
+Version: 0.1.1
 Author: Castlegate IT
 Author URI: http://www.castlegateit.co.uk/
 License: MIT
@@ -253,7 +253,7 @@ function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE) {
         $message = apply_filters('cgit_contact_success', $message);
 
         // Check recipient email address (default admin)
-        $to = $email_to ?: get_option('admin_email');
+        $to = html_entity_decode($email_to) ?: get_option('admin_email');
         $to = apply_filters('cgit_contact_email_to', $to, $form_id);
 
         // Add subject and headers
