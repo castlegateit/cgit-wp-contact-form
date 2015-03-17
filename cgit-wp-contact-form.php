@@ -286,7 +286,11 @@ function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE) {
 
         $body = cgit_contact_escape($body);
         $body = apply_filters('cgit_contact_email_body', $body, $form_id);
-        $body = html_entity_decode($body);
+
+        // Remove unwanted HTML entities
+        while ($body != html_entity_decode($body)) {
+            $body = html_entity_decode($body);
+        }
 
         // Send email and update message if necessary
         if ( ! wp_mail($to, $subject, $body, $headers) ) {
