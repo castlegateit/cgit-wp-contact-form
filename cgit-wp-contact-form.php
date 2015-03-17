@@ -270,11 +270,23 @@ function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE) {
                 $value  = cgit_contact_post($field['name']);
                 $body  .= "$label: $value\n\n";
                 $log[]  = $value;
+            } elseif ($field['type'] == 'checkbox') {
+                $label  = $field['label'];
+                $items  = array();
+                foreach ($field['options'] as $option) {
+                    if ($item = cgit_contact_post($option['name'])) {
+                        $items[] = $item;
+                    }
+                }
+                $value  = implode(', ', $items);
+                $body  .= "$label: $value\n\n";
+                $log[]  = $value;
             }
         }
 
         $body = cgit_contact_escape($body);
         $body = apply_filters('cgit_contact_email_body', $body, $form_id);
+        $body = html_entity_decode($body);
 
         // Send email and update message if necessary
         if ( ! wp_mail($to, $subject, $body, $headers) ) {
