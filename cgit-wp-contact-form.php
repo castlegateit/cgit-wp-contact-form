@@ -262,7 +262,10 @@ function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE) {
 
         // Assemble message body from named and labelled fields (and log file row)
         $body = '';
-        $log  = array( date('Y-m-d H:i'), $_SERVER['REMOTE_ADDR'] );
+        $log  = array(
+            date('Y-m-d H:i'),
+            ( isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '' )
+        );
 
         foreach ($fields as $field) {
             if ( isset($field['name']) && isset($field['label']) ) {
@@ -283,6 +286,12 @@ function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE) {
                 $log[]  = $value;
             }
         }
+
+        if (isset($_SERVER['REMOTE_ADDR']))
+        {
+            $body .= "Sent from IP address: " . $_SERVER['REMOTE_ADDR'] . "\n\n";
+        }
+
 
         $body = cgit_contact_escape($body);
         $body = apply_filters('cgit_contact_email_body', $body, $form_id);
