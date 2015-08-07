@@ -8,13 +8,14 @@ function cgit_contact_add_default_template ($templates) {
     $templates[] = array(
 
         'form' => array(
-            'form'          => '<form %attr> %heading %message %fields </form>',
-            'heading'       => '<h2>Contact</h2>',
-            'message'       => '<p %attr>%message</p>',
-            'group'         => '<p>%label %required %error %options</p>',
-            'error'         => '<span %attr>%message</span>',
-            'error_class'   => 'error',
-            'success_class' => 'success',
+            'form'             => '<form %attr> %heading %message %fields </form>',
+            'heading'          => '<h2>Contact</h2>',
+            'message'          => '<p %attr>%message</p>',
+            'group'            => '<p>%label %required %error %options</p>',
+            'error'            => '<span %attr>%error</span>',
+            'error_class'      => 'error',
+            'success_class'    => 'success',
+            'html5_validation' => true
         ),
 
         'fields' => array(
@@ -26,7 +27,7 @@ function cgit_contact_add_default_template ($templates) {
             'select'   => '<p><label for="%id">%label %required</label> <select name="%name" id="%id" %attr>%options</select> %error</p>',
             'option'   => '<option value="%value" %attr>%label</option>',
             'button'   => '<p><button type="%type">%label</button></p>',
-            'submit'   => '<p><button>%label</button></p>',
+            'submit'   => '<p><button>%label</button></p>'
         ),
 
         'messages' => array(
@@ -40,7 +41,7 @@ function cgit_contact_add_default_template ($templates) {
             'email'    => 'Please enter a valid email address',
             'url'      => 'Please enter a valid URL',
             'tel'      => 'Please enter a valid telephone number',
-            'number'   => 'Please enter a valid number',
+            'number'   => 'Please enter a valid number'
         ),
 
         'email' => array(

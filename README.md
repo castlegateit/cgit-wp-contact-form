@@ -29,20 +29,90 @@ You can use the filter `cgit_contact_forms` to add your own forms to the main ar
 
 This will add a form called `example_form`. The plugin comes with two forms. The default form, with ID `0`, is a basic contact form and is used when you do not specify a form ID. There is also a `debug` form, which includes examples of all the field types for testing purposes. These can be found in `forms.php`.
 
-## Adding templates ##
 
-The plugin comes with a complete set of templates for forms, fields, and messages. This default template has an ID of `0` and is used where you do not specify a template ID. You can add templates with the `cgit_contact_templates` filter:
+## Templates ##
+
+
+Templates are used to change the markup used in your generated forms. Templates also control the messages your form will output. The plugin comes with sensible template code designed to work well for most situations, however the markup can be completely changed if required.
+
+### Example template ###
+
+    $template['my-template'] = array(
+
+        'form' => array(
+            'form'    => '<form %attr> %heading %message %fields </form>',
+            'heading' => '<h2>Contact</h2>',
+            'message' => '<p %attr>%message</p>',
+            ...
+        ),
+
+        'fields' => array(
+            'text'     => '<p><label for="%id">%label %required</label> <input type="%type" name="%name" id="%id" value="%value" %attr /> %error</p>',
+            'textarea' => '<p><label for="%id">%label %required</label> <textarea name="%name" id="%id" %attr>%value</textarea> %error</p>',
+            'checkbox' => '<input type="checkbox" name="%name" id="%id" value="%value" %attr /> <label for="%id">%label</label>',
+            ...
+        ),
+
+        'messages' => array(
+            'required' => '<span class="required">*</span>',
+            'success'  => 'Your message has been sent. Thank you.',
+            'empty'    => 'This is a required field',
+            ...
+        ),
+
+        'email' => array(
+            'subject' => '[' . get_bloginfo('name') . '] Website Enquiry',
+        ),
+    )
+
+### Default template ###
+
+The default template is stored in `cgit-wp-contact-form\templates.php`. You can look at this file to see the markup that will be used when generating your form, or copy the template array structure when adding your own template. Templates are stored in an array and the default template has an ID of `0`. It's used by default when you do not specify a template ID.
+
+### Adding templates ###
+
+The plugin provides a filter `cgit_contact_templates` which you can use to modify the templates array. You do not need to define every possible template group and item; the values from the default template will be used where they cannot be found in your custom template. If you simply wanted to tweak the form heading, you can do like so:
 
     function example_add_template ($templates) {
-        $templates['example_template'] = array( /* templates */ );
+
+        $templates['example_template'] = array(
+            'form' => array(
+                'heading' => '<h1>Speak to us!</h1>'
+            )
+        );
+
         return $templates;
+
     }
 
     add_filter('cgit_contact_templates', 'example_add_template');
 
-This will add a template called `example_template`. You do not need to define every possible template group and item; the values from the default template will be used where they cannot be found in your custom template. The default template can be found in `templates.php`.
+### Using custom templates ###
+
+When custom templates are defined, their array index is used to reference them. In the example above, the template is named `example_template`. Using your template for a contact form is as simple as:
+
+    <?php echo cgit_contact_form(0, 'example_template'); ?>
+
+### Template variables ###
+
+Each template item will have a series of variables which are replaced when displaying the form. You cannot directly modify the values of the variables.
+
+ - %attr (Additional field attributes, for example `required` attribute)
+ - %error (Outputs a field's validation message)
+ - %fields (Outputs all form fields)
+ - %heading (Outputs the heading as defined in the template)
+ - %id (Field `id` attribute, also used in the `for` attribute on `<label>` tags)
+ - %label (`<label>` tag contents)
+ - %message (Outputs the form message as defined in the template)
+ - %name (Field `name` attribute)
+ - %options (Outputs `<option>` tags for `select` fields)
+ - %required (Content to indicate a field is required)
+ - %type (Field type, used for `<input>` tags to define the `type` attribute)
+ - %value (Field `value` attribute, automatically populated with posted data)
+
 
 ## Log files ##
+
 
 The log file directory is set using the constant `CGIT_CONTACT_FORM_LOG`. This should be a complete path to a directory, ideally below the document root. **This is not set by default.** It is up to you to define this constant in `wp-config.php`. If it is not defined, you will see a warning message at the top of the WordPress admin panel. Note that separate forms will write to separate log files in this directory.
 
