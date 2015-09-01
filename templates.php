@@ -9,6 +9,7 @@ function cgit_contact_add_default_template ($templates) {
 
         'form' => array(
             'form'          => '<form %attr> %heading %message %fields </form>',
+            'attr'          => 'action="' . $_SERVER['REQUEST_URI'] . '" method="post"',
             'heading'       => '<h2>Contact</h2>',
             'message'       => '<p %attr>%message</p>',
             'group'         => '<p>%label %required %error %options</p>',

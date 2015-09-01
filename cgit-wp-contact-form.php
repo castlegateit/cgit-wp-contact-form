@@ -127,7 +127,7 @@ function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE) {
         $form = array();
 
         // Assemble array for main form template
-        $form['attr']    = "action='$url' method='post'";
+        $form['attr']    = $template['form']['attr'];
         $form['heading'] = $template['form']['heading'];
         $form['message'] = $message;
         $form['fields']  = '';
@@ -158,7 +158,7 @@ function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE) {
             $field['attr'] = implode(' ', $attr);
 
             // If field has name and has been submitted, check for value and error
-            if ( isset($field['name']) && isset($_POST[$field['name']]) ) {
+            if ( isset($field['name']) && isset($_POST["contact_form_$form_id"])) {
 
                 $field['value'] = cgit_contact_post($field['name']);
 

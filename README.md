@@ -112,6 +112,7 @@ Templates are divided into four groups: `form`, `fields`, `messages`, and `email
 
         'form' => array(
             'heading' => '<h2>Example Contact Form</h2>',
+            'attr'    => 'action="example.php" method="get"',
         ),
 
         'fields' => array(
