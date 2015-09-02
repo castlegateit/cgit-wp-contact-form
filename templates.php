@@ -8,7 +8,7 @@ function cgit_contact_add_default_template ($templates) {
     $templates[] = array(
 
         'form' => array(
-            'form'             => '<form %attr> %heading %message %fields </form>',
+            'form'             => '<form %attr novalidate> %heading %message %fields </form>',
             'heading'          => '<h2>Contact</h2>',
             'message'          => '<p %attr>%message</p>',
             'group'            => '<p>%label %required %error %options</p>',
