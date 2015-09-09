@@ -25,6 +25,9 @@ require_once dirname( __FILE__ ) . '/forms.php';
 if ( ! defined('CGIT_CONTACT_FORM_LOG') ) {
     add_action('admin_notices', 'cgit_contact_notice_log');
 }
+if (! defined('WP_UPLOADS_DIR') ) {
+    add_action('admin_notices', 'cgit_contact_upload_dir');
+}
 
 /**
  * Display contact form and process form submissions
@@ -259,6 +262,7 @@ function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE) {
         // Add subject and headers
         $subject = apply_filters('cgit_contact_email_subject', $template['email']['subject'], $form_id);
         $headers = apply_filters('cgit_contact_email_headers', NULL, $form_id);
+        $attachments = array();
 
         // Assemble message body from named and labelled fields (and log file row)
         $body = '';
@@ -268,7 +272,7 @@ function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE) {
         );
 
         foreach ($fields as $field) {
-            if ( isset($field['name']) && isset($field['label']) ) {
+            if ( isset($field['name']) && isset($field['label']) && $field['type'] != 'file') {
                 $label  = $field['label'];
                 $value  = cgit_contact_post($field['name']);
                 $body  .= "$label: $value\n\n";
@@ -284,6 +288,14 @@ function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE) {
                 $value  = implode(', ', $items);
                 $body  .= "$label: $value\n\n";
                 $log[]  = $value;
+            }
+            elseif ($field['type'] == 'file' && $has_attachment == false) {
+                if(!empty($_FILES)) {
+                    foreach ($_FILES as $file) {
+                        $attachments[] = WP_CONTENT_DIR . WP_UPLOADS_DIR . $file['name'];
+                    }
+                }
+                $has_attachment = true;
             }
         }
 
@@ -302,7 +314,7 @@ function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE) {
         }
 
         // Send email and update message if necessary
-        if ( ! wp_mail($to, $subject, $body, $headers) ) {
+        if ( ! wp_mail($to, $subject, $body, $headers, $attachments) ) {
 
             $message_args = array(
                 'message' => $template['messages']['failure'],

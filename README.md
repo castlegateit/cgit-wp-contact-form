@@ -16,6 +16,7 @@ You can also use these arguments with the shortcode:
 
 The process of adding forms and templates is described below.
 
+
 ## Adding forms and fields ##
 
 You can use the filter `cgit_contact_forms` to add your own forms to the main array of forms. Each form is an array of fields and each field is an array of settings. You should set a unique array key for each form. For example:
@@ -41,6 +42,15 @@ The plugin comes with a complete set of templates for forms, fields, and message
     add_filter('cgit_contact_templates', 'example_add_template');
 
 This will add a template called `example_template`. You do not need to define every possible template group and item; the values from the default template will be used where they cannot be found in your custom template. The default template can be found in `templates.php`.
+
+## Sending files ##
+
+The plugin supports sending files as email attachments. It will do this by checking for a "file" field in the form being posted, and then getting file names from $_FILES and grabbing those files from WP_CONTENT_DIR . WP_UPLOADS_DIR.
+
+This makes it necessary to declare WP_UPLOADS_DIR as a subdirectory of WP_CONTENT_DIR. At the time of WP_CONFIG being read, WP_CONTENT_DIR is undefined and cannot be mapped.
+
+As an example:
+define('WP_UPLOADS_DIR', '/uploads/my_file_directory/');
 
 ## Log files ##
 
