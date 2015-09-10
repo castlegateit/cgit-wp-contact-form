@@ -25,7 +25,7 @@ require_once dirname( __FILE__ ) . '/forms.php';
 if ( ! defined('CGIT_CONTACT_FORM_LOG') ) {
     add_action('admin_notices', 'cgit_contact_notice_log');
 }
-if (! defined('WP_UPLOADS_DIR') ) {
+if (! defined('CGIT_UPLOAD_DIR') ) {
     add_action('admin_notices', 'cgit_contact_upload_dir');
 }
 
@@ -289,10 +289,10 @@ function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE) {
                 $body  .= "$label: $value\n\n";
                 $log[]  = $value;
             }
-            elseif ($field['type'] == 'file' && $has_attachment == false) {
+            elseif ($field['type'] == 'file' && $has_attachment == false && defined('CGIT_UPLOAD_DIR')) {
                 if(!empty($_FILES)) {
                     foreach ($_FILES as $file) {
-                        $attachments[] = WP_CONTENT_DIR . WP_UPLOADS_DIR . $file['name'];
+                        $attachments[] = WP_CONTENT_DIR . CGIT_UPLOAD_DIR . $file['name'];
                     }
                 }
                 $has_attachment = true;
