@@ -45,12 +45,12 @@ This will add a template called `example_template`. You do not need to define ev
 
 ## Sending files ##
 
-The plugin supports sending files as email attachments. It will do this by checking for a "file" field in the form being posted, and then getting file names from $_FILES and grabbing those files from WP_CONTENT_DIR . WP_UPLOADS_DIR.
+The plugin supports sending files as email attachments. It will do this by checking for a "file" field in the form being posted, and then getting file names from $_FILES and grabbing those files from WP_CONTENT_DIR . CGIT_UPLOAD_DIR.
 
-This makes it necessary to declare WP_UPLOADS_DIR as a subdirectory of WP_CONTENT_DIR. At the time of WP_CONFIG being read, WP_CONTENT_DIR is undefined and cannot be mapped.
+This makes it necessary to declare CGIT_UPLOAD_DIR as a subdirectory of WP_CONTENT_DIR. At the time of WP_CONFIG being read, WP_CONTENT_DIR is undefined and cannot be mapped.
 
 As an example:
-define('WP_UPLOADS_DIR', '/uploads/my_file_directory/');
+define('CGIT_UPLOADS_DIR', '/uploads/my_file_directory/');
 
 ## Log files ##
 
