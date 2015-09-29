@@ -326,6 +326,9 @@ function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE) {
 
         }
 
+        // Do anything else we want to do (e.g. send an acknowledgement)
+        apply_filters('cgit_contact_form_done', $fields, $log);
+
         // Write to log file
         if ( defined('CGIT_CONTACT_FORM_LOG') ) {
 
