@@ -24,6 +24,8 @@ require_once dirname( __FILE__ ) . '/forms.php';
  */
 if ( ! defined('CGIT_CONTACT_FORM_LOG') ) {
     add_action('admin_notices', 'cgit_contact_notice_log');
+} elseif (!file_exists(CGIT_CONTACT_FORM_LOG)) {
+    add_action('admin_notices', 'cgit_contact_notice_log_exists');
 }
 
 /**
