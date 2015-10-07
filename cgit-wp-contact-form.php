@@ -27,9 +27,6 @@ if ( ! defined('CGIT_CONTACT_FORM_LOG') ) {
 } elseif (!file_exists(CGIT_CONTACT_FORM_LOG)) {
     add_action('admin_notices', 'cgit_contact_notice_log_exists');
 }
-if (! defined('CGIT_UPLOAD_DIR') ) {
-    add_action('admin_notices', 'cgit_contact_upload_dir');
-}
 
 /**
  * Display contact form and process form submissions
@@ -104,6 +101,10 @@ function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE) {
                     $error[$name] = $template['messages']['number'];
                 }
 
+            }
+
+            if ( $type == 'file' && ! defined('CGIT_UPLOAD_DIR') ) {
+                $error[$name] = 'Contact form uploaded files directory not defined.';
             }
 
             // Apply filter: cgit_contact_validate
