@@ -66,7 +66,7 @@ function cgit_contact_notice_log () {
  * Check log directory exists
  */
 function cgit_contact_notice_log_exists() {
-    echo '<div class="error"><p>The log directory <code>CGIT_CONTACT_FORM_LOG</code> does not exist. Please create the directory <code>' . CGIT_CONTACT_FORM_LOG . '</code> with write permissions.</p></div>'
+    echo '<div class="error"><p>The log directory <code>CGIT_CONTACT_FORM_LOG</code> does not exist. Please create the directory <code>' . CGIT_CONTACT_FORM_LOG . '</code> with write permissions.</p></div>';
 
 
 /**
