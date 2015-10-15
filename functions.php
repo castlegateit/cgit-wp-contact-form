@@ -68,12 +68,6 @@ function cgit_contact_notice_log () {
 function cgit_contact_notice_log_exists() {
     echo '<div class="error"><p>The log directory <code>CGIT_CONTACT_FORM_LOG</code> does not exist. Please create the directory <code>' . CGIT_CONTACT_FORM_LOG . '</code> with write permissions.</p></div>'
 
-/*
- * Check for upload directory
- */
-function cgit_contact_upload_dir() {
-    echo '<div class="error"><p>Contact Form uploaded files directory not defined. Please define <code>CGIT_UPLOAD_DIR</code> in <code>wp-config.php</code> where path is a subdirectory of WP_CONTENT_DIR. See <a href="http://github.com/castlegateit/cgit-wp-contact-form">documentation</a> for details.</p></div>';
-}
 
 /**
  * Validate format of form fields
