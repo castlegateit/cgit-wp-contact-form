@@ -104,7 +104,7 @@ function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE) {
             }
 
             if ( $type == 'file' && ! defined('CGIT_UPLOAD_DIR') ) {
-                $error[$name] = 'Contact form uploaded files directory not defined.';
+                $error[$name] = 'Contact form uploaded files directory not defined. File will not be uploaded.';
             }
 
             // Apply filter: cgit_contact_validate
