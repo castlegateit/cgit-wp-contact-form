@@ -19,12 +19,34 @@ require_once dirname( __FILE__ ) . '/functions.php';
 require_once dirname( __FILE__ ) . '/templates.php';
 require_once dirname( __FILE__ ) . '/forms.php';
 
+
+
 /**
  * Check for log file definition
  */
 if ( ! defined('CGIT_CONTACT_FORM_LOG') ) {
     add_action('admin_notices', 'cgit_contact_notice_log');
 }
+else {
+
+    /**
+     * Add log file directory to Log Spooler plug-in
+     */
+    function cgit_wp_contact_form_set_logs() {
+        function cgit_wp_contact_form_logs($logs) {
+
+            $logs['cgit-wp-contact-form'] = array(
+                'label' => 'Contact forms',
+                'dir'   => CGIT_CONTACT_FORM_LOG
+            );
+
+            return $logs;
+        }
+        add_filter('cgit_log_spooler', 'cgit_wp_contact_form_logs');
+    }
+    add_action('init', 'cgit_wp_contact_form_set_logs', 1);
+}
+
 
 /**
  * Display contact form and process form submissions
