@@ -1,6 +1,31 @@
 <?php
 
 /**
+ * Check valid email address
+ *
+ * Returns true if email address is in a valid format and the domain exists with
+ * valid A and MX records.
+ */
+function cgit_is_valid_email($email) {
+    if (!$email) {
+        return false;
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return false;
+    }
+
+    list($address, $domain) = explode('@', $email);
+    $domain .= '.';
+
+    if (!checkdnsrr($domain, 'MX') && !checkdnsrr($domain, 'A')) {
+        return false;
+    }
+
+    return true;
+}
+
+/**
  * Add associative vsprintf
  *
  * Works like vsprintf(), but uses named placeholders that match the keys in an

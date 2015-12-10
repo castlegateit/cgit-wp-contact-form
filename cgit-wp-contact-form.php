@@ -113,7 +113,7 @@ function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE) {
 
                 if ($value == '') {
                     $error[$name] = $template['messages']['empty'];
-                } elseif ( $type == 'email' && ! filter_var($value, FILTER_VALIDATE_EMAIL) ) {
+                } elseif ( $type == 'email' && ! cgit_is_valid_email($value) ) {
                     $error[$name] = $template['messages']['email'];
                 } elseif ( $type == 'url' && ! filter_var($value, FILTER_VALIDATE_URL) ) {
                     $error[$name] = $template['messages']['url'];
