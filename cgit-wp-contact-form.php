@@ -297,7 +297,7 @@ function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE) {
         );
 
         foreach ($fields as $field) {
-            if ( isset($field['name']) && isset($field['label']) && $field['type'] != 'file') {
+            if ( isset($field['name']) && isset($field['label']) && $field['type'] != 'file' && $field['type'] != 'checkbox') {
                 $label  = $field['label'];
                 $value  = cgit_contact_post($field['name']);
                 $body  .= "$label: $value\n\n";
