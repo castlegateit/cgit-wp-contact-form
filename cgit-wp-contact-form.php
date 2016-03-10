@@ -19,15 +19,36 @@ require_once dirname( __FILE__ ) . '/functions.php';
 require_once dirname( __FILE__ ) . '/templates.php';
 require_once dirname( __FILE__ ) . '/forms.php';
 
+
+
 /**
  * Check for log file definition
  */
 if ( ! defined('CGIT_CONTACT_FORM_LOG') ) {
     add_action('admin_notices', 'cgit_contact_notice_log');
+} elseif (!file_exists(CGIT_CONTACT_FORM_LOG)) {
+    add_action('admin_notices', 'cgit_contact_notice_log_exists');
 }
-if (! defined('CGIT_UPLOAD_DIR') ) {
-    add_action('admin_notices', 'cgit_contact_upload_dir');
+else {
+
+    /**
+     * Add log file directory to Log Spooler plug-in
+     */
+    function cgit_wp_contact_form_set_logs() {
+        function cgit_wp_contact_form_logs($logs) {
+
+            $logs['cgit-wp-contact-form'] = array(
+                'label' => 'Contact forms',
+                'dir'   => CGIT_CONTACT_FORM_LOG
+            );
+
+            return $logs;
+        }
+        add_filter('cgit_log_spooler', 'cgit_wp_contact_form_logs');
+    }
+    add_action('init', 'cgit_wp_contact_form_set_logs', 1);
 }
+
 
 /**
  * Display contact form and process form submissions
@@ -92,7 +113,7 @@ function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE, $
 
                 if ($value == '') {
                     $error[$name] = $template['messages']['empty'];
-                } elseif ( $type == 'email' && ! filter_var($value, FILTER_VALIDATE_EMAIL) ) {
+                } elseif ( $type == 'email' && ! cgit_is_valid_email($value) ) {
                     $error[$name] = $template['messages']['email'];
                 } elseif ( $type == 'url' && ! filter_var($value, FILTER_VALIDATE_URL) ) {
                     $error[$name] = $template['messages']['url'];
@@ -102,6 +123,10 @@ function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE, $
                     $error[$name] = $template['messages']['number'];
                 }
 
+            }
+
+            if ( $type == 'file' && ! defined('CGIT_UPLOAD_DIR') ) {
+                $error[$name] = 'Contact form uploaded files directory not defined. File will not be uploaded.';
             }
 
             // Apply filter: cgit_contact_validate
@@ -278,7 +303,7 @@ function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE, $
         );
 
         foreach ($fields as $field) {
-            if ( isset($field['name']) && isset($field['label']) && $field['type'] != 'file') {
+            if ( isset($field['name']) && isset($field['label']) && $field['type'] != 'file' && $field['type'] != 'checkbox') {
                 $label  = $field['label'];
                 $value  = cgit_contact_post($field['name']);
                 $body  .= "$label: $value\n\n";

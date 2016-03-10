@@ -1,6 +1,31 @@
 <?php
 
 /**
+ * Check valid email address
+ *
+ * Returns true if email address is in a valid format and the domain exists with
+ * valid A and MX records.
+ */
+function cgit_is_valid_email($email) {
+    if (!$email) {
+        return false;
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return false;
+    }
+
+    list($address, $domain) = explode('@', $email);
+    $domain .= '.';
+
+    if (!checkdnsrr($domain, 'MX') && !checkdnsrr($domain, 'A')) {
+        return false;
+    }
+
+    return true;
+}
+
+/**
  * Add associative vsprintf
  *
  * Works like vsprintf(), but uses named placeholders that match the keys in an
@@ -63,10 +88,10 @@ function cgit_contact_notice_log () {
 }
 
 /**
-* Check for upload directory.
-*/
-function cgit_contact_upload_dir() {
-    echo '<div class="error"><p>Contact Form uploaded files directory not defined. Please define <code>CGIT_UPLOAD_DIR</code> in <code>wp-config.php</code> where path is a subdirectory of WP_CONTENT_DIR. See <a href="http://github.com/castlegateit/cgit-wp-contact-form">documentation</a> for details.</p></div>';
+ * Check log directory exists
+ */
+function cgit_contact_notice_log_exists() {
+    echo '<div class="error"><p>The log directory <code>CGIT_CONTACT_FORM_LOG</code> does not exist. Please create the directory <code>' . CGIT_CONTACT_FORM_LOG . '</code> with write permissions.</p></div>';
 }
 
 /**
