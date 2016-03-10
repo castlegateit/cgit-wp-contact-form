@@ -6,13 +6,13 @@ Castlegate IT WP Contact Form is a flexible contact form plugin for WordPress. I
 
 The plugin comes with a default form and template. The function `cgit_contact_form()` will return a complete, working form that will send to the WordPress admin email address. You can also use the shortcode `[contact_form]` to insert a contact form in the content of any post or page.
 
-The function has three optional arguments. These allow you to choose the form and template and to set the email address this form will send to:
+The function has four optional arguments. These allow you to choose the form and template and to set the email address this form will send to and from:
 
-    cgit_contact_form($form_id, $template_id, $email_to);
+    cgit_contact_form($form_id, $template_id, $email_to, $email_from);
 
 You can also use these arguments with the shortcode:
 
-    [contact_form form="example" template="example" to="example@example.com"]
+    [contact_form form="example" template="example" to="example@example.com" from="sender@example.com"]
 
 The process of adding forms and templates is described below.
 
@@ -150,5 +150,5 @@ In addition to `cgit_contact_forms` and `cgit_contact_templates`, which are used
 *   `cgit_contact_failure` filters the failure message HTML.
 *   `cgit_contact_to` filters the email address the form sends to.
 *   `cgit_contact_subject` filters the subject (originally set in the template).
-*   `cgit_contact_headers` filters the email headers (blank by default).
+*   `cgit_contact_headers` filters the email headers (blank by default). The 'from' email address is added after filtering.
 *   `cgit_contact_body` filters the email body.

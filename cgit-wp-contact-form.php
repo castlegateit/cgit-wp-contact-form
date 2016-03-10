@@ -32,7 +32,7 @@ if (! defined('CGIT_UPLOAD_DIR') ) {
 /**
  * Display contact form and process form submissions
  */
-function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE) {
+function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE, $email_from = FALSE) {
 
     // Build arrays of forms and templates using filters
     $forms     = apply_filters( 'cgit_contact_forms', array() );
@@ -262,6 +262,12 @@ function cgit_contact_form ($form_id = 0, $template_id = 0, $email_to = FALSE) {
         // Add subject and headers
         $subject = apply_filters('cgit_contact_email_subject', $template['email']['subject'], $form_id);
         $headers = apply_filters('cgit_contact_email_headers', NULL, $form_id);
+
+        // Use the specified 'from' email if one has been provided.
+        if ($from_email) {
+            $headers = "From: " . $from_email . "\n" . $headers;
+        }
+
         $attachments = array();
 
         // Assemble message body from named and labelled fields (and log file row)
@@ -364,11 +370,12 @@ function cgit_contact_form_shortcode ($atts) {
         'form'     => 0,
         'template' => 0,
         'to'       => get_option('admin_email'),
+        'from'       => FALSE,
     );
 
     $atts = shortcode_atts($defaults, $atts);
 
-    return cgit_contact_form($atts['form'], $atts['template'], $atts['to']);
+    return cgit_contact_form($atts['form'], $atts['template'], $atts['to'], $atts['from']);
 
 }
 
