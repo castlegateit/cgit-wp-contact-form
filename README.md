@@ -1,5 +1,9 @@
 # Castlegate IT WP Contact Form #
 
+**Development of this plugin has now stopped and its use is no longer recommended. The functions provided by this plugin can now be found in the Castlegate IT [Postman](https://github.com/castlegateit/cgit-wp-postman) and [Postcard](https://github.com/castlegateit/cgit-wp-postcard) plugins.**
+
+---
+
 Castlegate IT WP Contact Form is a flexible contact form plugin for WordPress. It provides functions and shortcodes for inserting contact forms in posts, pages, and templates. It also allows you to defined your own forms, fields, and templates. It requires PHP 5.3.
 
 ## Basic usage ##
